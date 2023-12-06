@@ -1,0 +1,16 @@
+[package]
+name = "peer2peer"
+version = "0.0.1"
+edition = "2021"
+
+[lib]
+crate-type = ["staticlib", "cdylib", "lib"]
+
+[build-dependencies]
+flutter_rust_bridge_codegen = "1.82.*"
+walkdir = { version = "2.4.0", features = [] }
+
+[dependencies]
+flutter_rust_bridge = "1.82.*"
+
+[dev-dependencies]

@@ -1,0 +1,21 @@
+PODS:
+  - flutter_peer2peer (0.0.1)
+  - FlutterMacOS (1.0.0)
+
+DEPENDENCIES:
+  - flutter_peer2peer (from `Flutter/ephemeral/.symlinks/plugins/flutter_peer2peer/macos`)
+  - FlutterMacOS (from `Flutter/ephemeral`)
+
+EXTERNAL SOURCES:
+  flutter_peer2peer:
+    :path: Flutter/ephemeral/.symlinks/plugins/flutter_peer2peer/macos
+  FlutterMacOS:
+    :path: Flutter/ephemeral
+
+SPEC CHECKSUMS:
+  flutter_peer2peer: adde4f264b4b0b1b8a1dcb4a28f8bd98f7513402
+  FlutterMacOS: 8f6f14fa908a6fb3fba0cd85dbd81ec4b251fb24
+
+PODFILE CHECKSUM: 236401fc2c932af29a9fcf0e97baeeb2d750d367
+
+COCOAPODS: 1.14.2
