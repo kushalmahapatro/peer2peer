@@ -1,7 +1,9 @@
-use walkdir::WalkDir;
+extern crate cc;
+
 use lib_flutter_rust_bridge_codegen::{
     config_parse, frb_codegen, get_symbols_if_no_duplicates, RawOpts,
 };
+use walkdir::WalkDir;
 
 const RUST_INPUT: &str = "src/api.rs";
 const DART_OUTPUT: &str = "../lib/src/bridge_generated.dart";
@@ -12,6 +14,7 @@ const MACOS_C_OUTPUT_DIR: &str = "../../flutter_peer2peer/macos/Classes/";
 const MACOS_EXM_C_OUTPUT_DIR: &str = "../../flutter_example/macos/Classes/";
 
 fn main() {
+    println!("cargo:rustc-link-lib=framework=SystemConfiguration");
     // Tell Cargo that if the input Rust code changes, rerun this build script
     println!("cargo:rerun-if-changed={}", RUST_INPUT);
 
@@ -70,5 +73,3 @@ fn copy_dir_to(src: &std::path::Path, dst: &std::path::Path) -> std::io::Result<
     });
     Ok(())
 }
-
-    

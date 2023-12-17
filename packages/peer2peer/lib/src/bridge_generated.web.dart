@@ -18,6 +18,42 @@ class Peer2PeerPlatform extends FlutterRustBridgeBase<Peer2PeerWire> with Flutte
 
 // Section: api2wire
 
+  @protected
+  String api2wire_String(String raw) {
+    return raw;
+  }
+
+  @protected
+  List<dynamic> api2wire_box_autoadd_log_entry(LogEntry raw) {
+    return api2wire_log_entry(raw);
+  }
+
+  @protected
+  Object api2wire_i64(int raw) {
+    return castNativeBigInt(raw);
+  }
+
+  @protected
+  List<dynamic> api2wire_log_entry(LogEntry raw) {
+    return [
+      api2wire_i64(raw.timeMillis),
+      api2wire_i32(raw.level),
+      api2wire_String(raw.tag),
+      api2wire_String(raw.userId),
+      api2wire_String(raw.user),
+      api2wire_String(raw.msg)
+    ];
+  }
+
+  @protected
+  String? api2wire_opt_String(String? raw) {
+    return raw == null ? null : api2wire_String(raw);
+  }
+
+  @protected
+  Uint8List api2wire_uint_8_list(Uint8List raw) {
+    return raw;
+  }
 // Section: finalizer
 }
 
@@ -31,11 +67,23 @@ external Peer2PeerWasmModule get wasmModule;
 class Peer2PeerWasmModule implements WasmModule {
   external Object /* Promise */ call([String? moduleName]);
   external Peer2PeerWasmModule bind(dynamic thisArg, String moduleName);
+  external dynamic /* void */ wire_dummy(NativePortType port_, List<dynamic> a);
+
+  external dynamic /* void */ wire_rust_set_up(NativePortType port_);
+
+  external dynamic /* void */ wire_create_log_stream(NativePortType port_);
+
   external dynamic /* void */ wire_print_hello(NativePortType port_);
 
   external dynamic /* void */ wire_add(NativePortType port_, int a, int b);
 
   external dynamic /* void */ wire_subtract(NativePortType port_, int a, int b);
+
+  external dynamic /* void */ wire_get_ip_one(NativePortType port_);
+
+  external dynamic /* void */ wire_tick(NativePortType port_);
+
+  external dynamic /* void */ wire_start_p2p(NativePortType port_, String? address);
 }
 
 // Section: WASM wire connector
@@ -43,9 +91,21 @@ class Peer2PeerWasmModule implements WasmModule {
 class Peer2PeerWire extends FlutterRustBridgeWasmWireBase<Peer2PeerWasmModule> {
   Peer2PeerWire(FutureOr<WasmModule> module) : super(WasmModule.cast<Peer2PeerWasmModule>(module));
 
+  void wire_dummy(NativePortType port_, List<dynamic> a) => wasmModule.wire_dummy(port_, a);
+
+  void wire_rust_set_up(NativePortType port_) => wasmModule.wire_rust_set_up(port_);
+
+  void wire_create_log_stream(NativePortType port_) => wasmModule.wire_create_log_stream(port_);
+
   void wire_print_hello(NativePortType port_) => wasmModule.wire_print_hello(port_);
 
   void wire_add(NativePortType port_, int a, int b) => wasmModule.wire_add(port_, a, b);
 
   void wire_subtract(NativePortType port_, int a, int b) => wasmModule.wire_subtract(port_, a, b);
+
+  void wire_get_ip_one(NativePortType port_) => wasmModule.wire_get_ip_one(port_);
+
+  void wire_tick(NativePortType port_) => wasmModule.wire_tick(port_);
+
+  void wire_start_p2p(NativePortType port_, String? address) => wasmModule.wire_start_p2p(port_, address);
 }

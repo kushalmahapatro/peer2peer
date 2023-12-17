@@ -16,6 +16,18 @@ import 'package:uuid/uuid.dart';
 import 'bridge_generated.io.dart' if (dart.library.html) 'bridge_generated.web.dart';
 
 abstract class Peer2Peer {
+  Future<void> dummy({required LogEntry a, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kDummyConstMeta;
+
+  Future<String> rustSetUp({dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kRustSetUpConstMeta;
+
+  Stream<LogEntry> createLogStream({dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kCreateLogStreamConstMeta;
+
   Future<String> printHello({dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kPrintHelloConstMeta;
@@ -27,6 +39,36 @@ abstract class Peer2Peer {
   Future<int> subtract({required int a, required int b, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kSubtractConstMeta;
+
+  Future<String> getIpOne({dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kGetIpOneConstMeta;
+
+  Stream<int> tick({dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kTickConstMeta;
+
+  Future<String> startP2P({String? address, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kStartP2PConstMeta;
+}
+
+class LogEntry {
+  final int timeMillis;
+  final int level;
+  final String tag;
+  final String userId;
+  final String user;
+  final String msg;
+
+  const LogEntry({
+    required this.timeMillis,
+    required this.level,
+    required this.tag,
+    required this.userId,
+    required this.user,
+    required this.msg,
+  });
 }
 
 class Peer2PeerImpl implements Peer2Peer {
@@ -36,6 +78,59 @@ class Peer2PeerImpl implements Peer2Peer {
   /// Only valid on web/WASM platforms.
   factory Peer2PeerImpl.wasm(FutureOr<WasmModule> module) => Peer2PeerImpl(module as ExternalLibrary);
   Peer2PeerImpl.raw(this._platform);
+  Future<void> dummy({required LogEntry a, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_log_entry(a);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_dummy(port_, arg0),
+      parseSuccessData: _wire2api_unit,
+      parseErrorData: null,
+      constMeta: kDummyConstMeta,
+      argValues: [
+        a
+      ],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kDummyConstMeta => const FlutterRustBridgeTaskConstMeta(
+        debugName: "dummy",
+        argNames: [
+          "a"
+        ],
+      );
+
+  Future<String> rustSetUp({dynamic hint}) {
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_rust_set_up(port_),
+      parseSuccessData: _wire2api_String,
+      parseErrorData: null,
+      constMeta: kRustSetUpConstMeta,
+      argValues: [],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kRustSetUpConstMeta => const FlutterRustBridgeTaskConstMeta(
+        debugName: "rust_set_up",
+        argNames: [],
+      );
+
+  Stream<LogEntry> createLogStream({dynamic hint}) {
+    return _platform.executeStream(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_create_log_stream(port_),
+      parseSuccessData: _wire2api_log_entry,
+      parseErrorData: _wire2api_FrbAnyhowException,
+      constMeta: kCreateLogStreamConstMeta,
+      argValues: [],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kCreateLogStreamConstMeta => const FlutterRustBridgeTaskConstMeta(
+        debugName: "create_log_stream",
+        argNames: [],
+      );
+
   Future<String> printHello({dynamic hint}) {
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) => _platform.inner.wire_print_hello(port_),
@@ -100,10 +195,67 @@ class Peer2PeerImpl implements Peer2Peer {
         ],
       );
 
+  Future<String> getIpOne({dynamic hint}) {
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_get_ip_one(port_),
+      parseSuccessData: _wire2api_String,
+      parseErrorData: _wire2api_FrbAnyhowException,
+      constMeta: kGetIpOneConstMeta,
+      argValues: [],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kGetIpOneConstMeta => const FlutterRustBridgeTaskConstMeta(
+        debugName: "get_ip_one",
+        argNames: [],
+      );
+
+  Stream<int> tick({dynamic hint}) {
+    return _platform.executeStream(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_tick(port_),
+      parseSuccessData: _wire2api_i32,
+      parseErrorData: _wire2api_FrbAnyhowException,
+      constMeta: kTickConstMeta,
+      argValues: [],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kTickConstMeta => const FlutterRustBridgeTaskConstMeta(
+        debugName: "tick",
+        argNames: [],
+      );
+
+  Future<String> startP2P({String? address, dynamic hint}) {
+    var arg0 = _platform.api2wire_opt_String(address);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_start_p2p(port_, arg0),
+      parseSuccessData: _wire2api_String,
+      parseErrorData: _wire2api_FrbAnyhowException,
+      constMeta: kStartP2PConstMeta,
+      argValues: [
+        address
+      ],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kStartP2PConstMeta => const FlutterRustBridgeTaskConstMeta(
+        debugName: "start_p2p",
+        argNames: [
+          "address"
+        ],
+      );
+
   void dispose() {
     _platform.dispose();
   }
 // Section: wire2api
+
+  FrbAnyhowException _wire2api_FrbAnyhowException(dynamic raw) {
+    return FrbAnyhowException(raw as String);
+  }
 
   String _wire2api_String(dynamic raw) {
     return raw as String;
@@ -113,12 +265,33 @@ class Peer2PeerImpl implements Peer2Peer {
     return raw as int;
   }
 
+  int _wire2api_i64(dynamic raw) {
+    return castInt(raw);
+  }
+
+  LogEntry _wire2api_log_entry(dynamic raw) {
+    final arr = raw as List<dynamic>;
+    if (arr.length != 6) throw Exception('unexpected arr length: expect 6 but see ${arr.length}');
+    return LogEntry(
+      timeMillis: _wire2api_i64(arr[0]),
+      level: _wire2api_i32(arr[1]),
+      tag: _wire2api_String(arr[2]),
+      userId: _wire2api_String(arr[3]),
+      user: _wire2api_String(arr[4]),
+      msg: _wire2api_String(arr[5]),
+    );
+  }
+
   int _wire2api_u8(dynamic raw) {
     return raw as int;
   }
 
   Uint8List _wire2api_uint_8_list(dynamic raw) {
     return raw as Uint8List;
+  }
+
+  void _wire2api_unit(dynamic raw) {
+    return;
   }
 }
 
@@ -128,4 +301,10 @@ class Peer2PeerImpl implements Peer2Peer {
 int api2wire_i32(int raw) {
   return raw;
 }
+
+@protected
+int api2wire_u8(int raw) {
+  return raw;
+}
+
 // Section: finalizer

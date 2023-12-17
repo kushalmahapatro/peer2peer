@@ -16,9 +16,50 @@ class Peer2PeerPlatform extends FlutterRustBridgeBase<Peer2PeerWire> {
 
 // Section: api2wire
 
+  @protected
+  ffi.Pointer<wire_uint_8_list> api2wire_String(String raw) {
+    return api2wire_uint_8_list(utf8.encoder.convert(raw));
+  }
+
+  @protected
+  ffi.Pointer<wire_LogEntry> api2wire_box_autoadd_log_entry(LogEntry raw) {
+    final ptr = inner.new_box_autoadd_log_entry_0();
+    _api_fill_to_wire_log_entry(raw, ptr.ref);
+    return ptr;
+  }
+
+  @protected
+  int api2wire_i64(int raw) {
+    return raw;
+  }
+
+  @protected
+  ffi.Pointer<wire_uint_8_list> api2wire_opt_String(String? raw) {
+    return raw == null ? ffi.nullptr : api2wire_String(raw);
+  }
+
+  @protected
+  ffi.Pointer<wire_uint_8_list> api2wire_uint_8_list(Uint8List raw) {
+    final ans = inner.new_uint_8_list_0(raw.length);
+    ans.ref.ptr.asTypedList(raw.length).setAll(0, raw);
+    return ans;
+  }
 // Section: finalizer
 
 // Section: api_fill_to_wire
+
+  void _api_fill_to_wire_box_autoadd_log_entry(LogEntry apiObj, ffi.Pointer<wire_LogEntry> wireObj) {
+    _api_fill_to_wire_log_entry(apiObj, wireObj.ref);
+  }
+
+  void _api_fill_to_wire_log_entry(LogEntry apiObj, wire_LogEntry wireObj) {
+    wireObj.time_millis = api2wire_i64(apiObj.timeMillis);
+    wireObj.level = api2wire_i32(apiObj.level);
+    wireObj.tag = api2wire_String(apiObj.tag);
+    wireObj.user_id = api2wire_String(apiObj.userId);
+    wireObj.user = api2wire_String(apiObj.user);
+    wireObj.msg = api2wire_String(apiObj.msg);
+  }
 }
 
 // ignore_for_file: camel_case_types, non_constant_identifier_names, avoid_positional_boolean_parameters, annotate_overrides, constant_identifier_names
@@ -97,6 +138,41 @@ class Peer2PeerWire implements FlutterRustBridgeWireBase {
   late final _init_frb_dart_api_dlPtr = _lookup<ffi.NativeFunction<ffi.IntPtr Function(ffi.Pointer<ffi.Void>)>>('init_frb_dart_api_dl');
   late final _init_frb_dart_api_dl = _init_frb_dart_api_dlPtr.asFunction<int Function(ffi.Pointer<ffi.Void>)>();
 
+  void wire_dummy(
+    int port_,
+    ffi.Pointer<wire_LogEntry> a,
+  ) {
+    return _wire_dummy(
+      port_,
+      a,
+    );
+  }
+
+  late final _wire_dummyPtr = _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Pointer<wire_LogEntry>)>>('wire_dummy');
+  late final _wire_dummy = _wire_dummyPtr.asFunction<void Function(int, ffi.Pointer<wire_LogEntry>)>();
+
+  void wire_rust_set_up(
+    int port_,
+  ) {
+    return _wire_rust_set_up(
+      port_,
+    );
+  }
+
+  late final _wire_rust_set_upPtr = _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>('wire_rust_set_up');
+  late final _wire_rust_set_up = _wire_rust_set_upPtr.asFunction<void Function(int)>();
+
+  void wire_create_log_stream(
+    int port_,
+  ) {
+    return _wire_create_log_stream(
+      port_,
+    );
+  }
+
+  late final _wire_create_log_streamPtr = _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>('wire_create_log_stream');
+  late final _wire_create_log_stream = _wire_create_log_streamPtr.asFunction<void Function(int)>();
+
   void wire_print_hello(
     int port_,
   ) {
@@ -138,6 +214,59 @@ class Peer2PeerWire implements FlutterRustBridgeWireBase {
   late final _wire_subtractPtr = _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Int32, ffi.Int32)>>('wire_subtract');
   late final _wire_subtract = _wire_subtractPtr.asFunction<void Function(int, int, int)>();
 
+  void wire_get_ip_one(
+    int port_,
+  ) {
+    return _wire_get_ip_one(
+      port_,
+    );
+  }
+
+  late final _wire_get_ip_onePtr = _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>('wire_get_ip_one');
+  late final _wire_get_ip_one = _wire_get_ip_onePtr.asFunction<void Function(int)>();
+
+  void wire_tick(
+    int port_,
+  ) {
+    return _wire_tick(
+      port_,
+    );
+  }
+
+  late final _wire_tickPtr = _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>('wire_tick');
+  late final _wire_tick = _wire_tickPtr.asFunction<void Function(int)>();
+
+  void wire_start_p2p(
+    int port_,
+    ffi.Pointer<wire_uint_8_list> address,
+  ) {
+    return _wire_start_p2p(
+      port_,
+      address,
+    );
+  }
+
+  late final _wire_start_p2pPtr = _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Pointer<wire_uint_8_list>)>>('wire_start_p2p');
+  late final _wire_start_p2p = _wire_start_p2pPtr.asFunction<void Function(int, ffi.Pointer<wire_uint_8_list>)>();
+
+  ffi.Pointer<wire_LogEntry> new_box_autoadd_log_entry_0() {
+    return _new_box_autoadd_log_entry_0();
+  }
+
+  late final _new_box_autoadd_log_entry_0Ptr = _lookup<ffi.NativeFunction<ffi.Pointer<wire_LogEntry> Function()>>('new_box_autoadd_log_entry_0');
+  late final _new_box_autoadd_log_entry_0 = _new_box_autoadd_log_entry_0Ptr.asFunction<ffi.Pointer<wire_LogEntry> Function()>();
+
+  ffi.Pointer<wire_uint_8_list> new_uint_8_list_0(
+    int len,
+  ) {
+    return _new_uint_8_list_0(
+      len,
+    );
+  }
+
+  late final _new_uint_8_list_0Ptr = _lookup<ffi.NativeFunction<ffi.Pointer<wire_uint_8_list> Function(ffi.Int32)>>('new_uint_8_list_0');
+  late final _new_uint_8_list_0 = _new_uint_8_list_0Ptr.asFunction<ffi.Pointer<wire_uint_8_list> Function(int)>();
+
   void free_WireSyncReturn(
     WireSyncReturn ptr,
   ) {
@@ -151,6 +280,29 @@ class Peer2PeerWire implements FlutterRustBridgeWireBase {
 }
 
 final class _Dart_Handle extends ffi.Opaque {}
+
+final class wire_uint_8_list extends ffi.Struct {
+  external ffi.Pointer<ffi.Uint8> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
+
+final class wire_LogEntry extends ffi.Struct {
+  @ffi.Int64()
+  external int time_millis;
+
+  @ffi.Int32()
+  external int level;
+
+  external ffi.Pointer<wire_uint_8_list> tag;
+
+  external ffi.Pointer<wire_uint_8_list> user_id;
+
+  external ffi.Pointer<wire_uint_8_list> user;
+
+  external ffi.Pointer<wire_uint_8_list> msg;
+}
 
 typedef DartPostCObjectFnType = ffi.Pointer<ffi.NativeFunction<ffi.Bool Function(DartPort port_id, ffi.Pointer<ffi.Void> message)>>;
 typedef DartPort = ffi.Int64;
